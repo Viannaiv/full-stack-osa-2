@@ -3,17 +3,13 @@ import ReactDOM from 'react-dom';
 
 const Header = ({course}) => {
     return (
-        <>
-            <h1>{course}</h1>
-        </>
+        <h1>{course}</h1>
     )
 }
 
 const Part = ({part}) => {
     return (
-        <>
-            <p>{part.name} {part.exercises}</p>
-        </>
+        <p>{part.name} {part.exercises}</p>
     )
 }
 
@@ -27,24 +23,22 @@ const Content = ({parts}) => {
     )
 }
 
-/* 
-    const Total = (props) => {
-    const parts = props.parts
-
+const Total = ({parts}) => {
     return (
-        <>
-            <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p>
-        </>
+        <p>
+            <strong>
+                Total of {parts[0].exercises + parts[1].exercises + parts[2].exercises} exercises
+            </strong>
+        </p>
     )
 }  
-*/
 
 const Course = ({course}) => {
     return (
         <>
             <Header course={course.name} />
             <Content parts={course.parts} />
-            {/*<Total parts={course.parts} />*/}
+            <Total parts={course.parts} />
         </>
     )
 }
