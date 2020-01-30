@@ -1,7 +1,7 @@
 import React from 'react';
 import Course from './components/Course'
 
-const Header = ({text, size}) => {
+const Header = ({text}) => {
     return (
         <h1>{text}</h1>
     )
