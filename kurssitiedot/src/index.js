@@ -27,7 +27,9 @@ const Total = ({parts}) => {
     return (
         <p>
             <strong>
-                Total of {parts[0].exercises + parts[1].exercises + parts[2].exercises} exercises
+                Total of {parts.reduce(
+                    (sum, part) => sum + part.exercises, 0
+                )} exercises
             </strong>
         </p>
     )
