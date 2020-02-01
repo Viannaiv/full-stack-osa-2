@@ -1,5 +1,33 @@
 import React, {useState} from 'react'
 
+const Filter = ({value, onChange}) => (
+    <div>
+        filter shown numbers with <input value={value} onChange={onChange}></input>
+    </div>
+)
+
+const PersonForm = ({onSubmit, nameValue, numberValue, nameOnChange, numberOnChange}) => (
+    <form onSubmit={onSubmit}>
+        <div>
+            Name: <input value={nameValue} onChange={nameOnChange} />
+        </div>
+        <div>
+            Number: <input value={numberValue} onChange={numberOnChange} />
+        </div>
+        <div>
+            <button type="submit">Add</button>
+        </div>
+    </form>
+)
+
+const Persons = ({persons}) => (
+    <>
+        {persons.map(person =>
+            <p key={person.name}>{person.name} {person.number}</p>
+        )}
+    </>
+)
+
 const App = () => {
     const [persons, setPersons] = useState([
         { name: 'Arto Hellas', number: '040-123456' },
@@ -50,24 +78,14 @@ const App = () => {
         <div>
             <h1>Phonebook</h1>
             <h2>Add a number</h2>
-            <form onSubmit={addPerson}>
-                <div>
-                    Name: <input value={newName} onChange={handleNameChange} />
-                </div>
-                <div>
-                    Number: <input value={newNumber} onChange={handleNumberChange} />
-                </div>
-                <div>
-                    <button type="submit">Add</button>
-                </div>
-            </form>
+            <PersonForm 
+                onSubmit={addPerson}
+                nameValue={newName} nameOnChange={handleNameChange}
+                numberValue={newNumber} numberOnChange={handleNumberChange} 
+            />
             <h2>Numbers</h2>
-            <div>
-                filter shown numbers with <input value={newFilter} onChange={handleFilterChange}></input>
-            </div><br/>
-            {personsToShow.map(person =>
-                <p key={person.name}>{person.name} {person.number}</p>
-            )}
+            <Filter value={newFilter} onChange={handleFilterChange} />
+            <Persons persons={personsToShow} />
         </div>
     )
 }
