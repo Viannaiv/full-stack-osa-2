@@ -24,15 +24,17 @@ const Country = ({country}) => (
     </div>
 )
 
-const Content = ({countries}) => {
+const Content = ({countries, onClick}) => {
     const results = countries.length
-    console.log('Results:', results)
     
     if (results > 1 && results < 11) {
         return (
             <>
                 {countries.map(country =>
-                    <p key={country.name}>{country.name}</p>
+                    <p key={country.name}>
+                        <span>{country.name} </span>
+                        <button value={country.name} onClick={onClick}>Show</button>
+                    </p>
                 )}
             </>
         )
@@ -69,6 +71,10 @@ const App = () => {
         setNewSearch(event.target.value)
     }
 
+    const handleShowClick = (event) => {
+        setNewSearch(event.target.value)
+    }
+
     const countriesToShow = newSearch === ''
         ? countries
         : countries.filter(country => country.name.toLowerCase().includes(newSearch.toLowerCase()))
@@ -76,7 +82,7 @@ const App = () => {
     return (
         <>
             <Search value={newSearch} onChange={handleSearchChange} />
-            <Content countries={countriesToShow} />
+            <Content countries={countriesToShow} onClick={handleShowClick} />
         </>
     )
 }
