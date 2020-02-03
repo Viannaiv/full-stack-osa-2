@@ -28,11 +28,22 @@ const Person = ({person, deletePerson}) => (
     </p>
 )
 
+const Notification = ({message}) => {
+    if (message === null) {
+        return null
+    }
+
+    return (
+        <div className='notification'>{message}</div>
+    )
+} 
+
 const App = () => {
     const [persons, setPersons] = useState([]) 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
+    const [notification, setNotification] = useState(null)
 
     useEffect(() => {
         personService
@@ -58,6 +69,12 @@ const App = () => {
                     .update(person.id, updatedPerson)
                     .then(returnedPerson => {
                         setPersons(persons.map(p => p.id !== person.id ? p : returnedPerson))
+                        setNotification(
+                            `Updated number of ${returnedPerson.name}`
+                        )
+                        setTimeout(() => {
+                            setNotification(null)
+                        }, 3000)
                 })
                 .catch(error => {
                     alert(
@@ -74,7 +91,15 @@ const App = () => {
             
             personService
                 .create(newPerson)
-                .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
+                .then(returnedPerson => {
+                    setPersons(persons.concat(returnedPerson))
+                    setNotification(
+                        `Added ${returnedPerson.name}`
+                    )
+                    setTimeout(() => {
+                        setNotification(null)
+                    }, 3000)
+                })
         }
 
         setNewName('')
@@ -87,7 +112,15 @@ const App = () => {
         if (confirmation) {
             personService
             .remove(id)
-            .then(setPersons(persons.filter(person => person.id !== id)))
+            .then(() => {
+                setPersons(persons.filter(person => person.id !== id))
+                setNotification(
+                    `Deleted ${name}`
+                )
+                setTimeout(() => {
+                    setNotification(null)
+                }, 3000)
+            })
         }
     }
 
@@ -109,6 +142,7 @@ const App = () => {
 
     return (
         <div>
+            <Notification message={notification} />
             <h1>Phonebook</h1>
             <h2>Add a number</h2>
             <PersonForm 
