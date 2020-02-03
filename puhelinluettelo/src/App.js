@@ -28,9 +28,13 @@ const Person = ({person, deletePerson}) => (
     </p>
 )
 
-const Notification = ({message}) => {
-    if (message === null) {
+const Notification = ({message, error}) => {
+    if (message === null && error === null) {
         return null
+    } else if (error !== null) {
+        return (
+            <div className='error'>{error}</div>
+        )
     }
 
     return (
@@ -44,6 +48,7 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('')
     const [newFilter, setNewFilter] = useState('')
     const [notification, setNotification] = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         personService
@@ -76,10 +81,13 @@ const App = () => {
                             setNotification(null)
                         }, 3000)
                 })
-                .catch(error => {
-                    alert(
-                        `Person ${person.name} has already been deleted from server`
+                .catch(e => {
+                    setError(
+                        `Information of ${person.name} has already been deleted from server`
                     )
+                    setTimeout(() => {
+                        setError(null)
+                    }, 3000)
                     setPersons(persons.filter(p => p.id !== person.id))
                 })
             }
@@ -142,7 +150,7 @@ const App = () => {
 
     return (
         <div>
-            <Notification message={notification} />
+            <Notification message={notification} error={error} />
             <h1>Phonebook</h1>
             <h2>Add a number</h2>
             <PersonForm 
