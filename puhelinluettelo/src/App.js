@@ -21,12 +21,11 @@ const PersonForm = ({onSubmit, nameValue, numberValue, nameOnChange, numberOnCha
     </form>
 )
 
-const Persons = ({persons}) => (
-    <>
-        {persons.map(person =>
-            <p key={person.name}>{person.name} {person.number}</p>
-        )}
-    </>
+const Person = ({person, deletePerson}) => (
+    <p>
+        <span>{person.name} {person.number} </span>
+        <button onClick={deletePerson}>Delete</button>
+    </p>
 )
 
 const App = () => {
@@ -63,6 +62,16 @@ const App = () => {
         setNewNumber('')
     }
 
+    const deletePersonWithId = (id, name) => {
+        const confirmation = window.confirm(`Delete ${name} ?`)
+
+        if (confirmation) {
+            personService
+            .remove(id)
+            .then(setPersons(persons.filter(person => person.id !== id)))
+        }
+    }
+
     const handleNameChange = (event) => {
         setNewName(event.target.value)
     }
@@ -90,7 +99,13 @@ const App = () => {
             />
             <h2>Numbers</h2>
             <Filter value={newFilter} onChange={handleFilterChange} />
-            <Persons persons={personsToShow} />
+            {personsToShow.map(person =>
+                <Person 
+                    key={person.name}
+                    person={person}
+                    deletePerson={() => deletePersonWithId(person.id, person.name)}
+                />
+            )}
         </div>
     )
 }

@@ -19,21 +19,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
-    },
-    {
-      "name": "Blob",
-      "number": "123-566789",
-      "id": 5
-    },
-    {
-      "name": "Tester",
-      "number": "123",
-      "id": 6
-    },
-    {
-      "name": "Another Tester",
-      "number": "321",
-      "id": 7
     }
   ]
 }
